@@ -5,19 +5,26 @@ Machine Learning midterm project - AutoChess
 This is project try to make an autonomous chess engine.
 
 
-## Dataset
+Dataset
+-----
+
 [Download](https://www.ficsgames.org/download.html) dataset of year 2019 (~1Gb).
 
 
-## Structure
-  - state: store game states (include white and black)
-  - main: play game
-  - model: neural network
-  - train: train and test model
+TODOs
+-----
 
-## API:
-  - move(oldState, newState, promotion=None)
-    - human moves
-    - check legal move
-    - computer move
-  - newgame()
+- Fix game play
+- Generate training dataset
+- Implement simple neural network model or ml model
+- Implement minimax, alpha-beta, ...
+- Implement valuator
+
+
+Usage
+-----
+
+```
+  pip install -r requirements.txt
+  python3 main.py
+```
