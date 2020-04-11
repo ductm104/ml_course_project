@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Simple chess</title>
+    <link rel="stylesheet" type="text/css" href="static/chessboard.min.css">
+    <script src="static/jquery.min.js"></script>
+    <script src="static/chessboard.min.js"></script>
+  </head>
+
+  <body style="font-size: 20px">
+    <button style="padding:10px" onclick="newGame()">NEW GAME</button><br/>
+    <div id="board" style="width: 600px"></div>
+    <p></p>
+
+    <script type="text/javascript">
+      var board = ChessBoard(
+                    'board',
+                    {position: 'start', draggable: true, onDrop: onDrop}
+                  );
+
+      function onDrop(source, target, piece) {
+        if (source == target) {
+          return;
+        }
+
+        var data = {'piece': piece, 'from': source, 'to': target};
+
+        $.get('/check_move', data, function(res) {
+          console.log(JSON.stringify(res));
+          var resp = JSON.parse(res);
+          value = resp.value;
+          
+          board.position(String(resp.board));
+          if (value.includes("ilegal")) {
+            console.log('ilegal move');
+            return;
+          } else {
+            console.log('legal move');
+            console.log(board);
+            document.getElementById('board').style.pointerEvents = 'none';
+
+            $.get('/move', data, function(res) {
+              var resp = JSON.parse(res)
+              value = resp.value
+              if (value.includes("game over")) {
+                document.querySelector('p').innerText = 'Game over';
+              } else {
+                // waiting for computer move
+                board.position(String(resp.board));
+                document.getElementById('board').style.pointerEvents = 'auto';
+              }
+            });
+          }
+        });
+      }
+
+      function newGame() {
+        $.get('/newgame', null, function(res) {
+          document.querySelector('p').innerText = '';
+          document.getElementById('board').style.pointerEvents = 'auto';
+          board.position(res);
+        });
+      }
+
+    </script>
+
+  </body>
+</html>
