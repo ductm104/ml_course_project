@@ -23,7 +23,7 @@
           return;
         }
 
-        var data = {'piece': piece, 'from': source, 'to': target};
+        var data = {'piece': piece, 'from': source, 'to': target, 'promotion':'q'};
 
         $.get('/check_move', data, function(res) {
           console.log(JSON.stringify(res));
