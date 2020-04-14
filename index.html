@@ -41,9 +41,10 @@
 
             $.get('/move', data, function(res) {
               var resp = JSON.parse(res)
-              value = resp.value
+              value = resp.value;
               if (value.includes("game over")) {
-                document.querySelector('p').innerText = 'Game over';
+                winner = resp.winner;
+                document.querySelector('p').innerText = 'Game over: ' + winner;
               } else {
                 // waiting for computer move
                 board.position(String(resp.board));

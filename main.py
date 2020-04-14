@@ -51,20 +51,17 @@ def check_move():
 
 @app.route('/move')
 def move():
+    if board.who_win() is not None:
+        return json.dumps({'value': 'game over', 'winner': board.who_win()})
+
     move = computer.get_move(board)
     time.sleep(1)
     board.push(move)
 
+    if board.who_win() is not None:
+        return json.dumps({'value': 'game over', 'winner': board.who_win()})
+
     return json.dumps({'value':'done', 'board': board.fen()})
-    for char in 'abcdefgh':
-        try:
-            board.push(Move.from_uci(f'{char}7{char}6'))
-            print('moving')
-            time.sleep(3)
-            return json.dumps({'value':'done', 'board': board.fen()})
-            return json.dumps({'value':'game over', 'board': 0})
-        except:
-            continue
 
 
 @app.route('/newgame')
