@@ -1,6 +1,7 @@
 import chess
 import numpy as np
 import random
+import time
 
 from collections import defaultdict
 from chess import Move
@@ -10,6 +11,16 @@ from valuator import Valuator
 class Player:
     def __init__(self):
         pass
+
+
+def timeit(method):
+    def timed(*args, **kw):
+        ts = time.time()
+        result = method(*args, **kw)
+        te = time.time()
+        print(f'Enlapsed time {method.__name__}: {te-ts}')
+        return result
+    return timed
 
 
 class Computer(Player):
@@ -35,13 +46,13 @@ class Computer(Player):
             value = self.MAX_VAL
             for move in board.legal_moves:
                 board.push(move)
-                value = min(value, self.__mini_max(board, False, depth-1))
+                value = min(value, self.__minimax(board, False, depth-1))
                 board.pop()
         else:
             value = -self.MAX_VAL
             for move in board.legal_moves:
                 board.push(move)
-                value = max(value, self.__mini_max(board, True, depth-1))
+                value = max(value, self.__minimax(board, True, depth-1))
                 board.pop()
 
         return value
@@ -63,22 +74,34 @@ class Computer(Player):
             value = self.MAX_VAL
             for move in board.legal_moves:
                 board.push(move)
-                value, alpha, beta = min(value, self.__alpha_beta(board, alpha, beta, False, depth-1))
+                value = min(value, self.__alpha_beta(board, alpha, beta, False, depth-1))
                 board.pop()
+                alpha = max(alpha, value)
+                if alpha >= beta:
+                    break
         else:
-            pass
+            value = -self.MAX_VAL
+            for move in board.legal_moves:
+                board.push(move)
+                value = max(value, self.__alpha_beta(board, alpha, beta, True, depth-1))
+                board.pop()
+                beta = min(beta, value)
+                if alpha >= beta:
+                    break
 
-        return value, alpha, beta
+        return value
 
+    @timeit
     def __explore_leaves(self, board):
         values = defaultdict(list)
         for move in board.legal_moves:
             board.push(move)
-            score = self.__minimax(board, True, depth=self.DEPTH)
+            #score = self.__minimax(board, True, self.DEPTH)
+            score = self.__alpha_beta(board, -self.MAX_VAL, self.MAX_VAL, True, self.DEPTH)
             values[score].append(move.uci())
             board.pop()
         values = sorted(values.items())
-        print(values)
+        #print(values)
         return Move.from_uci(random.choice(list(values)[0][1]))
 
     def __classic_move(self, board):
@@ -87,7 +110,7 @@ class Computer(Player):
     def get_move(self, board):
         #move = self.__random_move(board)
         move = self.__explore_leaves(board)
-        print('selected move:', move)
+        print('Selected move:', move)
         return move
 
 

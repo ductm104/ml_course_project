@@ -24,7 +24,7 @@ def hello():
 @app.route('/check_move')
 def check_move():
     def parse_request(agrs):
-        print(request.args)
+        #print(request.args)
         piece = request.args.get('piece')
         piece_color = piece[0]
         piece_type = piece[1]
