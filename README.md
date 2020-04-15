@@ -13,11 +13,15 @@ Dataset
 
 TODOs
 -----
-- Fix game play
-- Generate training dataset
-- Implement simple neural network model or ml model
-- Implement minimax, alpha-beta, ...
-- Implement valuator
+- [x] Fix game play
+- [ ] Generate training dataset
+- [ ] Implement simple neural network model or ml model
+- [ ] Implement minimax, alpha-beta, ...
+  - [x] Minimax
+  - [ ] Alpha-Beta pruning
+- [ ] Implement valuator
+  - [ ] Random
+  - [ ] [Simple](https://www.chessprogramming.org/Simplified\_Evaluation\_Function)
 
 
 Usage
