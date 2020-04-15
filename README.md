@@ -1,8 +1,8 @@
-Machine Learning midterm project - AutoChess
+Machine Learning midterm project - SimpleChess
 ---
 
 ## Description
-This is project try to make an autonomous chess engine.
+This is project try to make a stupid chess AI
 
 
 Dataset
@@ -15,12 +15,17 @@ TODOs
 -----
 - [x] Fix game play
 - [ ] Generate training dataset
+  - [ ] Explore state encoding strategies
+  - [ ] Gen state sets
+  - [ ] Gen next move sets
 - [ ] Implement simple neural network model or ml model
-- [ ] Implement minimax, alpha-beta, ...
-  - [x] Minimax
-  - [ ] Alpha-Beta pruning
+  - [ ] Model to evaluate a state (% win)
+  - [ ] Model to predict next piece to move
+- [ ] Implement search algorithms
+  - [x] [Minimax](https://en.wikipedia.org/wiki/Minimax#Minimax\_algorithm\_with\_alternate\_moves)
+  - [ ] [Alpha-Beta pruning](https://en.wikipedia.org/wiki/Alpha-beta\_pruning)
 - [ ] Implement valuator
-  - [ ] Random
+  - [x] Random
   - [ ] [Simple](https://www.chessprogramming.org/Simplified\_Evaluation\_Function)
 
 
