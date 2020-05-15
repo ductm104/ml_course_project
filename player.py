@@ -96,16 +96,13 @@ class Computer(Player):
         values = defaultdict(list)
         for move in board.legal_moves:
             board.push(move)
-            #score = self.__minimax(board, True, self.DEPTH)
-            score = self.__alpha_beta(board, -self.MAX_VAL, self.MAX_VAL, True, self.DEPTH)
+            #score = self.__minimax(board, False, self.DEPTH)
+            score = self.__alpha_beta(board, -self.MAX_VAL, self.MAX_VAL, False, self.DEPTH)
             values[score].append(move.uci())
             board.pop()
         values = sorted(values.items())
-        #print(values)
-        return Move.from_uci(random.choice(list(values)[0][1]))
-
-    def __classic_move(self, board):
-        return None
+        print(values)
+        return Move.from_uci(random.choice(values[0][1]))
 
     def get_move(self, board):
         #move = self.__random_move(board)
