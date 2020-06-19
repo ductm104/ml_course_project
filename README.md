@@ -2,7 +2,7 @@ Machine Learning midterm project - AutoChess
 ---
 
 ## Description
-This is project try to make an autonomous chess engine.
+This is a ML project :))
 
 
 Dataset
@@ -14,12 +14,8 @@ Dataset
 TODOs
 -----
 
-- Fix game play
 - Generate training dataset
 - Implement simple neural network model or ml model
-- Implement minimax, alpha-beta, ...
-- Implement valuator
-
 
 Usage
 -----
