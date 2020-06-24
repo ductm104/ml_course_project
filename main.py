@@ -9,6 +9,7 @@ import time
 from flask import Flask, Response, request
 from chess import Move
 from state import Board
+from player import Computer
 
 
 app = Flask(__name__)
@@ -22,15 +23,24 @@ def hello():
 
 @app.route('/check_move')
 def check_move():
-    piece = request.args.get('piece')
-    piece_color = piece[0]
-    piece_type = piece[1]
-    src = request.args.get('from', default='')
-    dst = request.args.get('to', default='')
-    print(request.args)
+    def parse_request(agrs):
+        #print(request.args)
+        piece = request.args.get('piece')
+        piece_color = piece[0]
+        piece_type = piece[1]
+        src = request.args.get('from', default='')
+        dst = request.args.get('to', default='')
+        promotion = request.args.get('promotion', default='')
+        promotion = promotion if (dst[1]=='8' and piece_type=='P') else ''
+        return piece_color, piece_type, src, dst, promotion
 
-    move = Move.from_uci(src + dst)
+    piece_color, piece_type, src, dst, promotion = parse_request(request.args)
+    move = Move.from_uci(src + dst + promotion)
     if piece_color != 'w' or move not in board.legal_moves:
+        print('*'*20)
+        print(list(board.legal_moves))
+        print(move)
+        print('*'*20, 'ilegal move')
         value = 'ilegal'
     else:
         value = 'legal'
@@ -41,11 +51,17 @@ def check_move():
 
 @app.route('/move')
 def move():
-    board.push(Move.from_uci('a7a6'))
-    print('moving')
-    time.sleep(3)
-    #return json.dumps({'value':'done', 'board': board.fen()})
-    return json.dumps({'value':'game over', 'board': 0})
+    if board.who_win() is not None:
+        return json.dumps({'value': 'game over', 'winner': board.who_win()})
+
+    move = computer.get_move(board)
+    time.sleep(1)
+    board.push(move)
+
+    if board.who_win() is not None:
+        return json.dumps({'value': 'game over', 'winner': board.who_win()})
+
+    return json.dumps({'value':'done', 'board': board.fen()})
 
 
 @app.route('/newgame')
@@ -56,4 +72,5 @@ def new_game():
 
 if __name__ == '__main__':
     board = Board()
+    computer = Computer()
     app.run(debug=True)
