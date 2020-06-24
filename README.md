@@ -1,8 +1,7 @@
 Machine Learning midterm project - SimpleChess
 ---
 
-## Description
-This is project try to make a stupid chess AI
+This is a ML project :))
 
 
 Dataset
@@ -27,7 +26,6 @@ TODOs
 - [ ] Implement valuator
   - [x] Random
   - [ ] [Simple](https://www.chessprogramming.org/Simplified\_Evaluation\_Function)
-
 
 Usage
 -----
