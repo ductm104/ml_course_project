@@ -6,6 +6,7 @@ import time
 from collections import defaultdict
 from chess import Move
 from valuator import Valuator
+from deep_valuator import DeepValuator
 
 
 class Player:
@@ -29,7 +30,10 @@ class Computer(Player):
 
     def __init__(self):
         super(Computer, self).__init__()
-        self.valuator = Valuator()
+        self.valuator = DeepValuator(
+            "/data.local/giangh/ml_course_project/reinforcement_learning/ckpt/0.5040.pth", 
+            "cpu"
+        )
 
     def __random_move(self, board):
         self.valuator(board)
